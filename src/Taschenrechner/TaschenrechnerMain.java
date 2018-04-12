@@ -9,20 +9,13 @@ import java.util.regex.Pattern;
 
 public class TaschenrechnerMain {
     public static void main(String[] args) {
-        List<String> calculation = new ArrayList<>();
+
         Scanner eingabe = new Scanner(System.in);
-        StringBuilder sb;
-        int j = 0;
 
         Pattern correctInput = Pattern.compile("((-?\\d+\\.?\\d*)((\\+||\\-||\\*||\\/)( )*(-?\\d+\\.?\\d*))+)");
-        Pattern isNumber = Pattern.compile("-?\\d+\\.\\d+");
-        //Pattern isOperation = Pattern.compile("\\")
-
 
         System.out.println("Geben Sie ihre Rechnung ein");
-
         String input = eingabe.nextLine();
-
 
         input = input.replaceAll("\\s", "");
 
@@ -31,30 +24,39 @@ public class TaschenrechnerMain {
 
         if (m.matches()) {
 
-            String[] zeichen = input.split("");
-            String[] mergedArray = new String[input.length()];
-            StringBuilder number = new StringBuilder("");
-
-
-            for (j = 0; j < zeichen.length; j++) { //bis zum Operation durch gehen
-
-                if (zeichen[j].equals("+") || zeichen[j].equals("/") || zeichen[j].equals("*") || zeichen[j].equals("-")) {
-                    calculation.add(number.toString());
-                    number = new StringBuilder();
-                    calculation.add(zeichen[j]);
-
-                } else {
-                    number.append(zeichen[j]);
-                }
-
-            }
-            calculation.add(number.toString());
-
-            System.out.println(calculation);
+            String[] singleChar = input.split("");
+            createList(singleChar);
 
         } else {
-            System.out.println("fehler");
+
         }
+
+    }
+
+    public static List createList(String[] stringArray) {
+
+        List<String> calculation = new ArrayList<>();
+        int j = 0;
+        StringBuilder number = new StringBuilder("");
+
+
+        for (j = 0; j < stringArray.length; j++) { //bis zum Operation durch gehen
+
+            if (stringArray[j].equals("+") || stringArray[j].equals("/") || stringArray[j].equals("*") || stringArray[j].equals("-")) {
+                calculation.add(number.toString());
+                number = new StringBuilder();
+                calculation.add(stringArray[j]);
+
+            } else {
+                number.append(stringArray[j]);
+            }
+
+        }
+
+        calculation.add(number.toString());
+
+        return calculation;
+
 
     }
 
