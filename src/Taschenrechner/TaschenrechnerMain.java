@@ -13,13 +13,9 @@ import java.util.regex.Pattern;
 public class TaschenrechnerMain {
     public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
         List<String> calculation = new ArrayList<>();
-        List<String> calculationLine = new ArrayList<>();
         PrintWriter writer = new PrintWriter("results.txt", "UTF-8");
-        int j = 0;
         String input = "n";
 
-        double x = 0.0;
-        double y = 0.0;
 
         Scanner eingabe = new Scanner(System.in);
 
@@ -40,65 +36,11 @@ public class TaschenrechnerMain {
                 String[] singleChar = input.split("");
                 calculation = createList(singleChar);
 
+                lineFirst(calculation);
+                calculation = lineFirst(calculation);
+                calculation = dotOperations(calculation);
 
-                for (int i = 0; i <= calculation.size() - 1; i++) {
-
-                    switch (calculation.get(i)) {
-                        case "*":
-                            j = calculationLine.size() - 1;
-                            x = Double.parseDouble(calculation.get(i - 1));
-                            y = Double.parseDouble(calculation.get(i + 1));
-
-                            String resultMul = Double.toString(Operations.mul(x, y));
-
-                            calculation.set(i + 1, resultMul);
-                            calculationLine.set(j, resultMul);
-                            i++;
-                            ;
-
-                            break;
-                        case "/":
-                            j = calculationLine.size() - 1;
-                            x = Double.parseDouble(calculation.get(i - 1));
-                            y = Double.parseDouble(calculation.get(i + 1));
-
-                            String resultDiv = Double.toString(Operations.divide(x, y));
-
-                            calculation.set(i + 1, resultDiv);
-                            calculationLine.set(j, resultDiv);
-                            i++;
-                        default:
-                            calculationLine.add(calculation.get(i));
-                            break;
-                    }
-
-                }
-
-                for (int i = 0; i < calculationLine.size(); i++) {
-                    switch (calculationLine.get(i)) {
-                        case "+":
-
-                            x = Double.parseDouble(calculationLine.get(i - 1));
-                            y = Double.parseDouble(calculationLine.get(i + 1));
-
-                            String resultAdd = Double.toString(Operations.add(x, y));
-                            calculationLine.set(i + 1, resultAdd);
-                            i++;
-                            ;
-
-                            break;
-                        case "/":
-                            x = Double.parseDouble(calculationLine.get(i - 1));
-                            y = Double.parseDouble(calculationLine.get(i + 1));
-
-                            String resultSubb = Double.toString(Operations.subb(x, y));
-                            calculationLine.set(i + 1, resultSubb);
-                            i++;
-                    }
-
-
-                }
-                String result = calculationLine.get(calculationLine.size() - 1);
+                String result = calculation.get(calculation.size() - 1);
                 System.out.println(result);
                 writer.println(result);
                 System.out.println("Wollen Sie beenden? (y/n)");
@@ -113,6 +55,77 @@ public class TaschenrechnerMain {
         writer.close();
     }
 
+    public static List lineFirst(List<String> calculation){
+
+        int j = 0;
+        double x = 0.0;
+        double y = 0.0;
+        List<String> calculationLine = new ArrayList<>();
+
+        for (int i = 0; i <= calculation.size() - 1; i++) {
+
+            switch (calculation.get(i)) {
+                case "*":
+                    j = calculationLine.size() - 1;
+                    x = Double.parseDouble(calculation.get(i - 1));
+                    y = Double.parseDouble(calculation.get(i + 1));
+
+                    String resultMul = Double.toString(Operations.mul(x, y));
+
+                    calculation.set(i + 1, resultMul);
+                    calculationLine.set(j, resultMul);
+                    i++;
+                    ;
+
+                    break;
+                case "/":
+                    j = calculationLine.size() - 1;
+                    x = Double.parseDouble(calculation.get(i - 1));
+                    y = Double.parseDouble(calculation.get(i + 1));
+
+                    String resultDiv = Double.toString(Operations.divide(x, y));
+
+                    calculation.set(i + 1, resultDiv);
+                    calculationLine.set(j, resultDiv);
+                    i++;
+                default:
+                    calculationLine.add(calculation.get(i));
+                    break;
+            }
+
+        } return calculationLine;
+    }
+    public static List dotOperations(List<String> calculationLine){
+
+        int j = 0;
+        double x = 0.0;
+        double y = 0.0;
+
+        for (int i = 0; i < calculationLine.size(); i++) {
+            switch (calculationLine.get(i)) {
+                case "+":
+
+                    x = Double.parseDouble(calculationLine.get(i - 1));
+                    y = Double.parseDouble(calculationLine.get(i + 1));
+
+                    String resultAdd = Double.toString(Operations.add(x, y));
+                    calculationLine.set(i + 1, resultAdd);
+                    i++;
+                    ;
+
+                    break;
+                case "/":
+                    x = Double.parseDouble(calculationLine.get(i - 1));
+                    y = Double.parseDouble(calculationLine.get(i + 1));
+
+                    String resultSubb = Double.toString(Operations.subb(x, y));
+                    calculationLine.set(i + 1, resultSubb);
+                    i++;
+            }
+
+
+        } return calculationLine;
+    }
     public static List createList(String[] stringArray) {
 
         List<String> calculation = new ArrayList<>();
