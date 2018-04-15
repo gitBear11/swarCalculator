@@ -36,13 +36,13 @@ public class TaschenrechnerMain {
                 String[] singleChar = input.split("");
                 calculation = createList(singleChar);
 
-                lineFirst(calculation);
                 calculation = lineFirst(calculation);
                 calculation = dotOperations(calculation);
 
                 String result = calculation.get(calculation.size() - 1);
                 System.out.println(result);
                 writer.println(result);
+
                 System.out.println("Wollen Sie beenden? (y/n)");
                 input = eingabe.nextLine();
 
